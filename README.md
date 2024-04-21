@@ -170,3 +170,56 @@ docker run -d -p 8088:80 my-nginx:v1
 #### 4. Test the Container, open your browser and navigate to http://localhost:8088 to check if everything is okay
 
 ## ![final result](./images/9.png)
+
+---
+
+## Lab2
+
+### Task 1 Bind mounting
+
+```bash
+docker run -v /home/ahmed/Desktop/:/home/ahmed/Desktop/ nginx
+```
+
+### ![bind mounting](./images/10.png)
+
+### Task 2, create 2 docker networks
+
+```bash
+    docker network create net-1
+    docker network create net-2
+```
+
+### ![create 2 docker networks](./images/11.png)
+
+#### Running the containers..
+
+```bash
+    docker run -d --name nginx-net1 --network net-1 nginx
+    docker run -d --name nginx-net2 --network net-2 nginx
+```
+
+### ![running the containers](./images/12.png)
+
+Running each containerand installing iputills for ping commmand to wrok
+
+```bash
+    docker exec -it nginx-net1 bash
+    apt update
+    root@7ecf5ecf0313:/# apt install iputils-ping
+```
+
+### ![installation](./images/14.png)
+
+#### Runs forever.. and notthing happens on both containers which is expected
+
+Becaase they are not connected to each other and each one has its own network
+
+### ![pinging](./images/13.png)
+
+#### Differcnce between docker mounts and docker volumes
+
+Both are persistent, bi directional methods of storage for docker containers
+however the main difference are
+-Docker mounts are linked to a directory on the host and is deleted when the container is removed.
+-Docker volumes are linked to a directory on the host and is not deleted when the container is removed. They are managed by docker itself
